@@ -35,6 +35,8 @@
 		<div class="footer-link">
 			<a href={`/posts/${post.id}/edit`}>수정</a>
 		</div>
+	{/if}
+	{#if me}
 		<div class="footer-link">
 			<a href={`/new?anchor=${post.id}&anchor_version=${vid}`}>답글</a>
 		</div>
