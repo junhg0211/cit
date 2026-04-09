@@ -14,6 +14,10 @@
 <Post {post} {me} {vid} />
 <Successors {successors} />
 <Comments {comments} />
+<div>
+	역사 보기에서는 댓글을 작성할 수 없습니다.
+	<a href={`/posts/${post.id}`}>최신 버전</a>에서 댓글을 작성해주세요.
+</div>
 
 <style>
 	.view-recent {
