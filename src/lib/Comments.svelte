@@ -89,7 +89,9 @@
 			{#if comment.content}
 				<div class="comment">
 					<div class="comment-header">
-						<span class="comment-user">{comment.user.username}</span>
+						<a href={`/users/${comment.user.username}`} class="comment-user">
+							{comment.user.username}
+						</a>
 						<span class="comment-date">
 							<span class="actions">
 								{#if me && me.id === comment.user.id}
