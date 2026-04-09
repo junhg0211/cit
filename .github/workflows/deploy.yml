@@ -1,0 +1,22 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Deployment Commands via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_SSH_HOST }}
+          username: ${{ secrets.REMOTE_SSH_USERNAME }}
+          key: ${{ secrets.REMOTE_SSH_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: |
+            tmux send-keys -t deploy C-c C-c
+            sleep 1
+            tmux send-keys -t deploy "git pull && bun i && bun run build && bun run start" Enter
