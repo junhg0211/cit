@@ -1,5 +1,6 @@
 import { query } from './db';
 import { sendNotification } from './notifications';
+import { getUserByUsername } from './users';
 
 export enum Visibility {
 	PUBLIC = 'public',
@@ -51,10 +52,11 @@ export async function createPost(
 
 	if (data.anchor) {
 		const post = await getPost(data.anchor);
-		if (!post.author_ids.includes(userId.toString())) {
+		for (const authorUsername of post!.author_ids) {
+			const user = await getUserByUsername(authorUsername);
 			await sendNotification(
-				userId,
-				`${post.title}에 새로운 답글이 작성되었습니다.`,
+				user!.id,
+				`${post!.title}에 새로운 답글이 작성되었습니다.`,
 				`/posts/${postId}`
 			);
 		}
