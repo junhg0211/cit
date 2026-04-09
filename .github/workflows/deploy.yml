@@ -17,6 +17,12 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            tmux send-keys -t deploy C-c C-c C-c C-c C-c Enter
-            sleep 1
+            tmux send-keys -t deploy C-c
+            sleep 0.1
+            tmux send-keys -t deploy C-c
+            sleep 0.1
+            tmux send-keys -t deploy C-c
+            sleep 0.1
+            tmux send-keys -t deploy Enter
+            sleep 0.1
             tmux send-keys -t deploy "git pull && bun i && bun run build && bun run start" Enter
