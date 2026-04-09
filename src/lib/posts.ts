@@ -115,7 +115,9 @@ export const POST_QUERY = `
 
   FROM posts p
 
-  JOIN post_versions pv ON p.id = pv.post_id
+  JOIN post_versions pv ON p.id = pv.post_id AND pv.version_number = (
+    SELECT MAX(version_number) FROM post_versions WHERE post_id = p.id
+  )
   LEFT JOIN post_authors pa ON p.id = pa.post_id
   LEFT JOIN comments c ON c.post_id = p.id
 
@@ -171,10 +173,15 @@ export async function search(keyword: string): Promise<Post[]> {
 export async function getNeighborPosts(
 	postId: number
 ): Promise<{ previous: Post | null; next: Post | null }> {
-	const [next] = await query(`${POST_QUERY} WHERE p.id > ? ORDER BY p.id ASC LIMIT 1`, [postId]);
-	const [previous] = await query(`${POST_QUERY} WHERE p.id < ? ORDER BY p.id DESC LIMIT 1`, [
-		postId
+	const [previous, next] = await Promise.all([
+		query(`${POST_QUERY} WHERE p.id < ? GROUP BY p.id ORDER BY p.id DESC`, [postId]),
+		query(`${POST_QUERY} WHERE p.id > ? GROUP BY p.id ORDER BY p.id ASC`, [postId])
 	]);
 
-	return { previous: previous.id ? previous : null, next: next.id ? next : null };
+	console.log(previous);
+
+	return {
+		previous: previous[0]?.id ? previous[0] : null,
+		next: next[0]?.id ? next[0] : null
+	};
 }
