@@ -56,6 +56,7 @@
 
 	.content-container {
 		display: flex;
+		gap: 20px;
 	}
 
 	.raw-content {
