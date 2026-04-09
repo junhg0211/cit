@@ -1,6 +1,6 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
-	import { title } from '$lib/stores';
+	import { title, description } from '$lib/stores';
 
 	const { children, data } = $props();
 	const { me, notifications } = $derived(data);
@@ -93,6 +93,13 @@
 			padding: 0 6px;
 		}
 	</style>
+	<meta property="og:title" content={$title} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://cit.zasoque.org/" />
+	<meta property="og:image" content={favicon} />
+	<meta property="og:description" content={$description} />
+	<meta property="og:site_name" content="Cit" />
+	<meta name="theme-color" content="#6e8f39" />
 	<title>{$title}</title>
 </svelte:head>
 

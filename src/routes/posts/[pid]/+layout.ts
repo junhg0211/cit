@@ -1,5 +1,5 @@
 import type { ServerLoad } from '@sveltejs/kit';
-import { title } from '$lib/stores';
+import { title, description } from '$lib/stores';
 
 export const load: ServerLoad = async ({ params, fetch }) => {
 	const { pid } = params;
@@ -14,6 +14,12 @@ export const load: ServerLoad = async ({ params, fetch }) => {
 	);
 
 	title.set(`${post.title} - Cit`);
+
+	const desc =
+		post.content.length > 50
+			? post.content.substring(0, 50).replace(/\n/g, ' ') + '...'
+			: post.content.replace(/\n/g, ' ');
+	description.set(desc);
 
 	return { post, successors, comments, neighbors };
 };
