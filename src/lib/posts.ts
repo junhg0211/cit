@@ -178,8 +178,6 @@ export async function getNeighborPosts(
 		query(`${POST_QUERY} WHERE p.id > ? GROUP BY p.id ORDER BY p.id ASC`, [postId])
 	]);
 
-	console.log(previous);
-
 	return {
 		previous: previous[0]?.id ? previous[0] : null,
 		next: next[0]?.id ? next[0] : null
