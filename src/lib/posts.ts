@@ -91,6 +91,7 @@ export type Post = {
 	} | null;
 	author_ids: string[]; // co-authors 포함
 	versions: Version[];
+	comment_count: number;
 };
 
 export const POST_QUERY = `
