@@ -54,6 +54,8 @@ export async function createPost(
 		const post = await getPost(data.anchor);
 		for (const authorUsername of post!.author_ids) {
 			const user = await getUserByUsername(authorUsername);
+			if (!user) continue;
+			if (user.id === userId) continue; // 작성자에게는 알림 보내지 않음
 			await sendNotification(
 				user!.id,
 				`${post!.title}에 새로운 답글이 작성되었습니다.`,
